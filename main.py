@@ -3,6 +3,8 @@ from typing import List, Dict
 from dataclasses import dataclass
 from datetime import datetime
 import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
 
 @dataclass
 class WeatherData:
@@ -91,6 +93,42 @@ def process_weather_data(weather_data: List[WeatherData]) -> pd.DataFrame:
     filename = f"weather_data_{timestamp}.csv"
     df.to_csv(filename, index=False)
     print(f"\nData saved to {filename}")
+    
+    # Create visualizations
+    plt.figure(figsize=(12, 8))
+    
+    # Temperature comparison
+    plt.subplot(2, 1, 1)
+    sns.barplot(data=df, x='city', y='temperature_c', palette='YlOrRd')
+    plt.title('Temperature Comparison Across Cities')
+    plt.xlabel('City')
+    plt.ylabel('Temperature (°C)')
+    plt.xticks(rotation=45)
+    
+    # Humidity and Wind Speed
+    plt.subplot(2, 1, 2)
+    width = 0.35
+    x = range(len(df['city']))
+    
+    plt.bar([i - width/2 for i in x], df['humidity'], width, label='Humidity (%)', color='skyblue')
+    plt.bar([i + width/2 for i in x], df['wind_speed_ms'], width, label='Wind Speed (m/s)', color='lightgreen')
+    
+    plt.xlabel('City')
+    plt.ylabel('Value')
+    plt.title('Humidity and Wind Speed Comparison')
+    plt.xticks(x, df['city'], rotation=45)
+    plt.legend()
+    
+    plt.tight_layout()
+    
+    # Save the plot
+    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+    plot_filename = f"weather_plot_{timestamp}.png"
+    plt.savefig(plot_filename)
+    print(f"Plot saved as {plot_filename}")
+    
+    # Display the plot
+    plt.show()
     
     return df
 
