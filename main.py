@@ -18,8 +18,8 @@ class WeatherData:
             'city': self.city,
             'temperature_c': self.temperature,
             'temperature_f': (self.temperature * 9/5) + 32,
-            'wind_speed_kmh': self.wind_speed,
-            'wind_speed_mph': self.wind_speed * 0.621371,
+            'wind_speed_ms': self.wind_speed,
+            'wind_speed_mph': self.wind_speed * 2.23694,
             'humidity': self.humidity,
             'timestamp': self.timestamp
         }
@@ -84,7 +84,7 @@ def process_weather_data(weather_data: List[WeatherData]) -> pd.DataFrame:
     
     # Calculate summary statistics
     print("\nSummary Statistics:")
-    print(df[['temperature_c', 'wind_speed_kmh', 'humidity']].describe())
+    print(df[['temperature_c', 'wind_speed_ms', 'humidity']].describe())
     
     # Save DataFrame to CSV
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
