@@ -86,6 +86,12 @@ def process_weather_data(weather_data: List[WeatherData]) -> pd.DataFrame:
     print("\nSummary Statistics:")
     print(df[['temperature_c', 'wind_speed_kmh', 'humidity']].describe())
     
+    # Save DataFrame to CSV
+    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+    filename = f"weather_data_{timestamp}.csv"
+    df.to_csv(filename, index=False)
+    print(f"\nData saved to {filename}")
+    
     return df
 
 def main():
